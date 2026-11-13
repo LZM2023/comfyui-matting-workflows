@@ -1,0 +1,553 @@
+{
+  "id": "bdf9cf1e-010c-4365-9be6-999bf5935d80",
+  "revision": 0,
+  "last_node_id": 9,
+  "last_link_id": 8,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [
+        80,
+        120
+      ],
+      "size": [
+        330,
+        330
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1,
+            5
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "dsh-sofa-base-01.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "dsh-sofa-base-01.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 2,
+      "type": "BiRefNetRMBG",
+      "pos": [
+        470,
+        120
+      ],
+      "size": [
+        360,
+        280
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1
+        },
+        {
+          "name": "model",
+          "type": "COMBO",
+          "widget": {
+            "name": "model"
+          },
+          "link": null
+        },
+        {
+          "name": "sensitivity",
+          "type": "FLOAT",
+          "widget": {
+            "name": "sensitivity"
+          },
+          "link": null
+        },
+        {
+          "name": "mask_blur",
+          "type": "INT",
+          "widget": {
+            "name": "mask_blur"
+          },
+          "link": null
+        },
+        {
+          "name": "mask_offset",
+          "type": "INT",
+          "widget": {
+            "name": "mask_offset"
+          },
+          "link": null
+        },
+        {
+          "name": "invert_output",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "invert_output"
+          },
+          "link": null
+        },
+        {
+          "name": "refine_foreground",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "refine_foreground"
+          },
+          "link": null
+        },
+        {
+          "name": "unload_model",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "unload_model"
+          },
+          "link": null
+        },
+        {
+          "name": "background",
+          "type": "COMBO",
+          "widget": {
+            "name": "background"
+          },
+          "link": null
+        },
+        {
+          "name": "background_color",
+          "type": "COLORCODE",
+          "widget": {
+            "name": "background_color"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": []
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            2
+          ]
+        },
+        {
+          "name": "MASK_IMAGE",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BiRefNetRMBG"
+      },
+      "widgets_values": [
+        "BiRefNet-HR",
+        1.0,
+        0,
+        0,
+        false,
+        false,
+        false,
+        "Alpha",
+        "#222222"
+      ],
+      "widgets_values_named": {
+        "model": "BiRefNet-HR",
+        "sensitivity": 1.0,
+        "mask_blur": 0,
+        "mask_offset": 0,
+        "invert_output": false,
+        "refine_foreground": false,
+        "unload_model": false,
+        "background": "Alpha",
+        "background_color": "#222222"
+      }
+    },
+    {
+      "id": 3,
+      "type": "MaskCleanup",
+      "pos": [
+        900,
+        120
+      ],
+      "size": [
+        330,
+        160
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            3,
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MaskCleanup"
+      },
+      "widgets_values": [
+        0.08,
+        0.05,
+        1,
+        1
+      ],
+      "widgets_values_named": {
+        "threshold": 0.08,
+        "min_area_percent": 0.05,
+        "erode_px": 1,
+        "feather_px": 1
+      }
+    },
+    {
+      "id": 4,
+      "type": "InvertMask",
+      "pos": [
+        1260,
+        120
+      ],
+      "size": [
+        220,
+        46
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InvertMask"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 5,
+      "type": "JoinImageWithAlpha",
+      "pos": [
+        1260,
+        230
+      ],
+      "size": [
+        250,
+        66
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 5
+        },
+        {
+          "name": "alpha",
+          "type": "MASK",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoinImageWithAlpha"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 6,
+      "type": "SaveImage",
+      "pos": [
+        1560,
+        120
+      ],
+      "size": [
+        420,
+        480
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "BiRefNet_HR"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "BiRefNet_HR"
+      }
+    },
+    {
+      "id": 7,
+      "type": "MaskToImage",
+      "pos": [
+        1260,
+        360
+      ],
+      "size": [
+        220,
+        46
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MaskToImage"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 8,
+      "type": "SaveImage",
+      "pos": [
+        1560,
+        660
+      ],
+      "size": [
+        420,
+        400
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 8
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "BiRefNet_HR_mask"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "BiRefNet_HR_mask"
+      }
+    },
+    {
+      "id": 9,
+      "type": "Note",
+      "pos": [
+        80,
+        560
+      ],
+      "size": [
+        900,
+        300
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "【抠图模型怎么选 · 实测 2026-11-13】\n\n■ BiRefNet-HR（默认首选）\n  适合：商品图/家具/3C/鞋包等硬边主体、高分辨率主图（模型内部 2048）\n  不适合：发丝、毛绒、玻璃、烟雾、半透明\n  实测：2048×1152 沙发 4.1~4.4 秒，抠完几乎零残留 ★ 先用它\n\n■ InSPyReNet（细结构专家）\n  适合：细腿/网格/栏杆/细线、复杂背景、保留阴影\n  不适合：追求速度的大分辨率（process_res 2048 首次实测 221 秒）\n  实测：process_res 1024 约 4.1 秒；细结构确实糊了再上 2048（很慢）\n\n■ SDMatte（高难图/透明）\n  适合：玻璃/透明物/发丝/半透明、高价值难图（扩散式 matting，质量上限最高）\n  不适合：批量快出、低显存；需要粗 mask（本工作流用 BiRefNet 自动生成）\n  实测：首次 12.4 秒（含 5.2GB 模型加载），之后同参数复用缓存\n\n■ FeyNoBg（本机暂不可用）\n  纸面最适合发丝/毛绒/蕾丝；但依赖 nobg+transformers>=5，会破坏现有 ComfyUI 环境\n  已暂缓接入，需要时用独立虚拟环境单独跑\n\n■ 后处理（本工作流已内置 Mask Cleanup）\n  threshold 0.06~0.12 去背景灰雾；0 = 保留软 alpha（人像/发丝）\n  min_area 去孤立小碎块；erode 1px 去边缘光晕；feather 1px 羽化\n\n■ 选择顺序：BiRefNet-HR → 边缘/细结构不行 → InSPyReNet(1024) → 透明/发丝/高难 → SDMatte\n"
+      ],
+      "widgets_values_named": {
+        "text": "【抠图模型怎么选】\n\n■ BiRefNet-HR（默认首选）\n  适合：商品图/家具/3C/鞋包等硬边主体、高分辨率主图（内部 2048）\n  不适合：发丝、毛绒、玻璃、烟雾、半透明\n  实测：2048×1152 沙发 4.4 秒，抠完几乎零残留 ★ 先用它\n\n■ InSPyReNet（细结构专家）\n  适合：细腿/网格/栏杆/细线、复杂背景、保留阴影\n  不适合：追求速度（process_res 2048 首次实测 221 秒）\n  建议：process_res 用 1024；细结构确实糊了再上 2048\n\n■ SDMatte（高难图/透明）\n  适合：玻璃/透明物/发丝/半透明、高价值难图\n  不适合：批量快出、低显存；需要粗 mask（本工作流用 BiRefNet 自动生成）\n  建议：BiRefNet-HR 边缘不行时再用它精修\n\n■ FeyNoBg（本机暂不可用）\n  纸面最适合发丝/毛绒/蕾丝；但依赖 nobg+transformers>=5，会破坏现有 ComfyUI 环境\n  已暂缓接入，需要时用独立虚拟环境单独跑\n\n■ 后处理（本工作流已内置 Mask Cleanup）\n  threshold 0.06~0.12 去背景灰雾；0 = 保留软 alpha（人像/发丝）\n  min_area 去孤立小碎块；erode 1px 去边缘光晕；feather 1px 羽化\n"
+      }
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "IMAGE"
+    ],
+    [
+      2,
+      2,
+      1,
+      3,
+      0,
+      "MASK"
+    ],
+    [
+      3,
+      3,
+      0,
+      4,
+      0,
+      "MASK"
+    ],
+    [
+      4,
+      4,
+      0,
+      5,
+      1,
+      "MASK"
+    ],
+    [
+      5,
+      1,
+      0,
+      5,
+      0,
+      "IMAGE"
+    ],
+    [
+      6,
+      5,
+      0,
+      6,
+      0,
+      "IMAGE"
+    ],
+    [
+      7,
+      3,
+      0,
+      7,
+      0,
+      "MASK"
+    ],
+    [
+      8,
+      7,
+      0,
+      8,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
