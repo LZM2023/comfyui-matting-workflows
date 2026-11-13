@@ -118,6 +118,9 @@ powershell -ExecutionPolicy Bypass -File scripts\download_models.ps1 -ComfyUI "D
 
 ---
 
+> 说明：工作流里 Load Image 的默认文件名（demo_chair.png / demo_vase.png / demo_table.png 等）只是截图用的示例图。
+> 想复现截图，请把本仓库 ssets/demo/ 下的图片复制到 ComfyUI/input/；实际使用时换成你自己的图片即可。
+
 ## 三、安装工作流
 
 1. 把 `workflows/` 下的 5 个 `.json` 复制到 `ComfyUI/user/default/workflows/`
